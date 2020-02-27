@@ -1,14 +1,13 @@
 package com.example.demo.domain;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -17,33 +16,25 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
 
 @Entity
-public class Comentario {
+public class Autor {
 	
 	@JsonInclude(Include.NON_NULL)
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	private String texto;
+	private String nome;
 	
 	@JsonInclude(Include.NON_NULL)
-	private String usuario;
+	private Date nascimento;
 	
 	@JsonFormat(pattern = "dd/MM/yyyy")
 	@JsonInclude(Include.NON_NULL)
-	private Date data;
+	private String nacionalidade;
 	
-	public Livro getLivro() {
-		return livro;
-	}
-	public void setLivro(Livro livro) {
-		this.livro = livro;
-	}
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "LIVRO_ID")
+	@OneToMany(mappedBy = "autor")
 	@JsonIgnore
-	private Livro livro;
-	
+	private List<Livro> livro;
 	
 	public Long getId() {
 		return id;
@@ -51,25 +42,29 @@ public class Comentario {
 	public void setId(Long id) {
 		this.id = id;
 	}
-	public String getTexto() {
-		return texto;
+	public String getNome() {
+		return nome;
 	}
-	public void setTexto(String texto) {
-		this.texto = texto;
+	public void setNome(String nome) {
+		this.nome = nome;
 	}
-	public String getUsuario() {
-		return usuario;
+	public Date getNascimento() {
+		return nascimento;
 	}
-	public void setUsuario(String usuario) {
-		this.usuario = usuario;
+	public void setNascimento(Date nascimento) {
+		this.nascimento = nascimento;
 	}
-	public Date getData() {
-		return data;
+	public String getNacionalidade() {
+		return nacionalidade;
 	}
-	public void setData(Date data) {
-		this.data = data;
+	public void setNacionalidade(String nacionalidade) {
+		this.nacionalidade = nacionalidade;
 	}
-	
-	
-	
+	public List<Livro> getLivro() {
+		return livro;
+	}
+	public void setLivro(List<Livro> livro) {
+		this.livro = livro;
+	}
+
 }

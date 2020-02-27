@@ -16,9 +16,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.example.demo.domain.Comentario;
 import com.example.demo.domain.Livro;
-import com.example.demo.exceptions.LivroNao;
-import com.example.demo.repository.LivroRe;
+import com.example.demo.repository.ComentarioRe;
 import com.example.demo.service.LivrosService;
 
 @RestController
@@ -28,6 +28,9 @@ public class LivroCon {
 	
 	@Autowired
 	private LivrosService livroSe;
+	
+	@Autowired
+	private ComentarioRe comentarioRe;
 	
 	@GetMapping()
 	public ResponseEntity<List<Livro>>listar() {
@@ -39,8 +42,8 @@ public class LivroCon {
 	
 	@PostMapping()
 	public ResponseEntity<Void> salvar(@RequestBody Livro livro) {
-		System.out.println("OLA API");
-		livroRe.save(livro);
+		System.out.println("Salvei");
+		livroSe.salvar(livro);
 		
 		URI uri =ServletUriComponentsBuilder.fromCurrentRequest()
 				.path("/{codigo}").buildAndExpand(livro.getCodigo()).toUri();
@@ -49,20 +52,14 @@ public class LivroCon {
 
 	@GetMapping("/{codigo}")
 	public ResponseEntity<?> buscar(@PathVariable("codigo") Long codigo) {
-		Livro livro = null;
-		try {
-			livro = livroSe.buscar(codigo);
-		} catch (Exception e) {
-			System.out.println("Livro nao encontrado");
-			return ResponseEntity.notFound().build();
-		}
-		 
+		Livro livro = livroSe.buscar(codigo);
+
 		return ResponseEntity.status(HttpStatus.OK).body(livro);
 	}	
 	
 	@DeleteMapping("/{codigo}")
 	public ResponseEntity<Void> deletar(@PathVariable("codigo") Long codigo) {
-		livroRe.deleteById(codigo);
+		livroSe.deletar(codigo);
 		/*try {
 			livroRe.deleteById(codigo);
 		} catch (EmptyResultaDataAccessException e) {
@@ -72,8 +69,55 @@ public class LivroCon {
 	}
 	
 	@PutMapping("/{codigo}")
-	public void alterar(@RequestBody Livro livro, @PathVariable("codigo") Long codigo) {
+	public ResponseEntity<Void> altualizar(@RequestBody Livro livro, @PathVariable("codigo") Long codigo) {
 		livro.setCodigo(codigo);
-		livroRe.save(livro);
+		
+		livroSe.atualizar(livro);
+		
+		return ResponseEntity.noContent().build();
 	}
+	
+	
+	@PostMapping("/{codigo}/comentarios")
+	public ResponseEntity<Void> adicionarComentario(@PathVariable ("codigo") Long livroId, @RequestBody Comentario  comentario) {
+		
+		livroSe.salvarComentario(livroId, comentario);
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().build().toUri();
+		
+		return ResponseEntity.created(uri).build();
+		
+		
+		
+	}
+	
+	@GetMapping("/{codigo}/comentarios")
+	public ResponseEntity<List<Comentario>> listarComentario(@PathVariable("codigo") Long livroId){
+		
+		List<Comentario> comentarios = livroSe.listarComentarios(livroId);
+		
+		return ResponseEntity.status(HttpStatus.OK).body(comentarios);
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }

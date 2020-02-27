@@ -7,9 +7,11 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
-import org.springframework.data.annotation.Transient;
-
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
@@ -25,7 +27,8 @@ public class Livro {
 	private String nome;
 	
 	@JsonInclude(Include.NON_NULL)
-	private Date nascimento;
+	@JsonFormat(pattern = "dd/MM/yyyy")
+	private Date estreia;
 	
 	@JsonInclude(Include.NON_NULL)
 	private String editora;
@@ -33,9 +36,14 @@ public class Livro {
 	@JsonInclude(Include.NON_NULL)
 	private String resumo;
 	
-	//@JsonInclude(Include.NON_NULL)
-	//@Transient
-	//private List<Comentario> comentarios;
+	@ManyToOne
+	@JoinColumn(name = "AUTOR_ID")
+	@JsonInclude(Include.NON_NULL)
+	private Autor autor;
+	
+	@JsonInclude(Include.NON_NULL)
+	@OneToMany(mappedBy = "livro")
+	private List<Comentario> comentarios;
 	
 	public Livro() {}
 	
@@ -59,12 +67,12 @@ public class Livro {
 		this.nome = nome;
 	}
 
-	public Date getNascimento() {
-		return nascimento;
+	public Date getEstreia() {
+		return estreia;
 	}
 
-	public void setNascimento(Date nascimento) {
-		this.nascimento = nascimento;
+	public void setEstreia(Date estreia) {
+		this.estreia = estreia;
 	}
 
 	public String getEditora() {
@@ -83,13 +91,20 @@ public class Livro {
 		this.resumo = resumo;
 	}
 
-	/*public List<Comentario> getComentarios() {
+	public List<Comentario> getComentarios() {
 		return comentarios;
 	}
 
 	public void setComentarios(List<Comentario> comentarios) {
 		this.comentarios = comentarios;
-	}*/
+	}
 	
 
+	public Autor getAutor() {
+		return autor;
+	}
+	
+	public void setAutor(Autor autor) {
+		this.autor = autor;
+	}
 }
