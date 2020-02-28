@@ -1,6 +1,7 @@
 package com.example.demo.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,14 +23,14 @@ public class AutorService {
 	}
 	
 	public Autor salvar(Autor autor) {
+		System.out.println("he"+autor.getId());
 		if(autor.getId() !=null) {
-			Autor a = autorRe.findById(autor.getId()).get();
-			
-			if(a != null) {
-				throw new AutorNao("Autor ja existe");
+			Optional<Autor> a = autorRe.findById(autor.getId());
+		
+		if(a.isPresent()) {
+			throw new AutorNao("Autor ja existe");
 			}
 		}
-		
 		
 		return autorRe.save(autor);
 

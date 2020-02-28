@@ -1,11 +1,15 @@
 package com.example.demo.resources;
 
+
 import java.net.URI;
 import java.util.List;
+
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -26,7 +30,7 @@ public class AutorCon {
 	private AutorService autorSe;
 
 	
-	@GetMapping
+	@GetMapping(produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
 	public ResponseEntity<List<Autor>> listar(){
 		List<Autor> autores = autorSe.listar();
 		
@@ -35,7 +39,7 @@ public class AutorCon {
 	
 	
 	@PostMapping
-	public ResponseEntity<Void> salvar(@RequestBody Autor autor) {
+	public ResponseEntity<Void> salvar(@Valid@RequestBody Autor autor) {
 		System.out.println("Salvei");
 		autor = autorSe.salvar(autor);
 		

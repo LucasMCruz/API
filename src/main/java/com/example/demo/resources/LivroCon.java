@@ -2,10 +2,14 @@ package com.example.demo.resources;
 
 import java.net.URI;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.CacheControl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -54,6 +58,8 @@ public class LivroCon {
 	public ResponseEntity<?> buscar(@PathVariable("codigo") Long codigo) {
 		Livro livro = livroSe.buscar(codigo);
 
+		CacheControl cachControl = CacheControl.maxAge(20, TimeUnit.SECONDS);
+		
 		return ResponseEntity.status(HttpStatus.OK).body(livro);
 	}	
 	
@@ -81,7 +87,12 @@ public class LivroCon {
 	@PostMapping("/{codigo}/comentarios")
 	public ResponseEntity<Void> adicionarComentario(@PathVariable ("codigo") Long livroId, @RequestBody Comentario  comentario) {
 		
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		
+		comentario.setUsuario(auth.getName());
+		
 		livroSe.salvarComentario(livroId, comentario);
+		
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().build().toUri();
 		
 		return ResponseEntity.created(uri).build();

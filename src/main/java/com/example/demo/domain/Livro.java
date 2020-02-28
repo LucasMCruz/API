@@ -10,6 +10,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -24,15 +26,19 @@ public class Livro {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long codigo;
 	
+	@NotEmpty(message = "O campo nome nao pode ser vaziio")
 	private String nome;
 	
+	@NotNull(message = "A data de publicação deve ser preenchida")
 	@JsonInclude(Include.NON_NULL)
 	@JsonFormat(pattern = "dd/MM/yyyy")
 	private Date estreia;
 	
+	@NotEmpty(message = "O campo editora nao pode ser vaziio")
 	@JsonInclude(Include.NON_NULL)
 	private String editora;
 	
+	@NotEmpty(message = "O resumo deve ser preenchido5t")
 	@JsonInclude(Include.NON_NULL)
 	private String resumo;
 	
