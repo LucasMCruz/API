@@ -1,4 +1,4 @@
-package com.example.demo.config;
+/*package com.example.demo.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -13,9 +13,8 @@ public class WebSecurity extends WebSecurityConfigurerAdapter{
 	public void configureGlobal(AuthenticationManagerBuilder builder) throws Exception{
 		builder
 		.inMemoryAuthentication()
-		.withUser("lucas").password("{noop}123").roles("USER")
-		.and()
-		.withUser("user").password("{noop}123").roles("USER");
+		.withUser("lucas").password("{noop}123").roles("USER");
+		
 	} 
 	
 	@Override
@@ -24,17 +23,14 @@ public class WebSecurity extends WebSecurityConfigurerAdapter{
 			.csrf().disable()
 			.authorizeRequests()
 			
-				.antMatchers("/livros").permitAll()//.hasAnyRole("USER")
-				.antMatchers("/livros/{codigo}").permitAll()//hasAnyRole("USER")
-				.antMatchers("/livros/{codigo}/comentarios").permitAll()
-				.antMatchers("/autores/{id}").permitAll()//hasAnyRole("USER")
-				.antMatchers("/autores").permitAll()//hasAnyRole("USER")
-				
+				//.antMatchers("/livros").permitAll()//.hasAnyRole("USER")
+				//.antMatchers("/livros/{codigo}").permitAll()//hasAnyRole("USER")
+				//.antMatchers("/livros/{codigo}/comentarios").permitAll()
+				//.antMatchers("/autores/{id}").permitAll()//hasAnyRole("USER")
+				//.antMatchers("/autores").permitAll()//hasAnyRole("USER")
+				//.antMatchers("/swagger-ui.html").permitAll()
 				.anyRequest()
 				.authenticated();
-			
-			
-			
 		
 				//.logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
 				//.logoutSuccessUrl("/logout-success").permitAll();
@@ -43,3 +39,4 @@ public class WebSecurity extends WebSecurityConfigurerAdapter{
 		
 	
 }
+*/

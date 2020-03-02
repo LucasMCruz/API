@@ -17,10 +17,14 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 
+//@ApiModel(value= "Licro", description = "reppresenta um livroo")
 @Entity
 public class Livro {
 	
+	//@ApiModelProperty(value = "Codigo do livro", example = "1")
 	@JsonInclude(Include.NON_NULL)
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,16 +33,16 @@ public class Livro {
 	@NotEmpty(message = "O campo nome nao pode ser vaziio")
 	private String nome;
 	
-	@NotNull(message = "A data de publicação deve ser preenchida")
+	//@NotNull(message = "A data de publicação deve ser preenchida")
 	@JsonInclude(Include.NON_NULL)
 	@JsonFormat(pattern = "dd/MM/yyyy")
 	private Date estreia;
 	
-	@NotEmpty(message = "O campo editora nao pode ser vaziio")
+	//@NotEmpty(message = "O campo editora nao pode ser vaziio")
 	@JsonInclude(Include.NON_NULL)
 	private String editora;
 	
-	@NotEmpty(message = "O resumo deve ser preenchido5t")
+	//@NotEmpty(message = "O resumo deve ser preenchido5t")
 	@JsonInclude(Include.NON_NULL)
 	private String resumo;
 	
